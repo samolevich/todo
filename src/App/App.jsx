@@ -1,6 +1,7 @@
-import AppHeader from "./components/AppHeader";
-import SearchPanel from "./components/SearchPanel";
-import TodoList from "./components/TodoList";
+import AppHeader from "../components/AppHeader/AppHeader";
+import ItemStatusFilter from "../components/ItemStatusFilter/ItemStatusFilter";
+import SearchPanel from "../components/SearchPanel/SearchPanel";
+import TodoList from "../components/TodoList/TodoList";
 
 const App = () => {
   const todos = [
@@ -15,8 +16,9 @@ const App = () => {
     <>
       {isLoggedIn ? welcomeBox : loginBox}
       <AppHeader />
-      <TodoList todos={todos} />
+      <ItemStatusFilter />
       <SearchPanel />
+      <TodoList todos={todos} />
     </>
   );
 };
