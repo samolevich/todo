@@ -1,4 +1,4 @@
-import TodoListItem from "../TodoListItem/TodoListItem";
+import TodoListItem from "./TodoListItem";
 
 const TodoList = ({ todos }) => {
   const todoList = todos.map(({ id, ...todoProps }) => {

@@ -1,7 +1,7 @@
-import AppHeader from "../components/AppHeader/AppHeader";
-import ItemStatusFilter from "../components/ItemStatusFilter/ItemStatusFilter";
-import SearchPanel from "../components/SearchPanel/SearchPanel";
-import TodoList from "../components/TodoList/TodoList";
+import AppHeader from "./AppHeader";
+import ItemStatusFilter from "./ItemStatusFilter";
+import SearchPanel from "./SearchPanel";
+import TodoList from "./TodoList";
 
 const App = () => {
   const todos = [
