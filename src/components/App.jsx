@@ -3,6 +3,7 @@ import AppHeader from "./AppHeader";
 import ItemStatusFilter from "./ItemStatusFilter";
 import SearchPanel from "./SearchPanel";
 import TodoList from "./TodoList";
+import AddTodo from "./AddTodo";
 
 export default class App extends Component {
   state = {
@@ -11,6 +12,31 @@ export default class App extends Component {
       { label: "build", important: true, id: 2, done: false },
       { label: "enjoy", important: false, id: 3, done: true },
     ],
+  };
+
+  counter = (step = 1) => {
+    let start = 0;
+    return () => (start += step);
+  };
+
+  inc = this.counter();
+
+  generateUniqueId = () => {
+    return new Date().getTime() + this.inc();
+  };
+
+  onAddTodoClick = () => {
+    this.setState(({ todos }) => ({
+      todos: [
+        ...todos,
+        {
+          label: "new",
+          important: false,
+          done: false,
+          id: this.generateUniqueId(),
+        },
+      ],
+    }));
   };
 
   onDeleteClick = id => {
@@ -31,6 +57,7 @@ export default class App extends Component {
         <ItemStatusFilter />
         <SearchPanel />
         <TodoList todos={this.state.todos} onDeleteClick={this.onDeleteClick} />
+        <AddTodo onAddTodoClick={this.onAddTodoClick} />
       </>
     );
   }
