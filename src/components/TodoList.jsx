@@ -1,10 +1,10 @@
 import TodoListItem from "./TodoListItem";
 
-const TodoList = ({ todos }) => {
-  const todoList = todos.map(({ id, ...todoProps }) => {
+const TodoList = ({ todos, onDeleteClick }) => {
+  const todoList = todos.map(({ id, ...todoItem }) => {
     return (
       <li key={id} className="list-group-item">
-        <TodoListItem {...todoProps} />
+        <TodoListItem {...todoItem} onDeleteClick={() => onDeleteClick(id)} />
       </li>
     );
   });

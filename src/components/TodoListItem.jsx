@@ -2,7 +2,7 @@ import { Component } from "react";
 
 export default class TodoListItem extends Component {
   state = {
-    done: false,
+    done: this.props.done,
     important: this.props.important,
   };
 
@@ -16,6 +16,8 @@ export default class TodoListItem extends Component {
 
   render() {
     const { done, important } = this.state;
+    const { label, onDeleteClick } = this.props;
+
     let classNames = "todo-list-item";
     if (done) classNames += " text-decoration-line-through";
     if (important) classNames += " fw-bold";
@@ -23,7 +25,7 @@ export default class TodoListItem extends Component {
     return (
       <>
         <span className={classNames} onClick={this.onLabelClick}>
-          {this.props.label}
+          {label}
         </span>
         <button
           type="button"
@@ -32,7 +34,11 @@ export default class TodoListItem extends Component {
         >
           important
         </button>
-        <button type="button" className="btn btn-sm btn-outline-danger">
+        <button
+          type="button"
+          className="btn btn-sm btn-outline-danger"
+          onClick={onDeleteClick}
+        >
           delete
         </button>
       </>
