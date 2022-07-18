@@ -26,16 +26,15 @@ export default class App extends Component {
   };
 
   onAddTodoClick = () => {
+    const newTodo = {
+      label: `todo - ${this.inc()}`,
+      important: false,
+      done: false,
+      id: this.generateUniqueId(),
+    };
+
     this.setState(({ todos }) => ({
-      todos: [
-        ...todos,
-        {
-          label: "new",
-          important: false,
-          done: false,
-          id: this.generateUniqueId(),
-        },
-      ],
+      todos: [...todos, newTodo],
     }));
   };
 
@@ -43,6 +42,16 @@ export default class App extends Component {
     this.setState(({ todos }) => ({
       todos: todos.filter(todo => todo.id !== id),
     }));
+  };
+
+  onToggleDone = id => {
+    console.log("done", id);
+    // this.setState(({ todos }) => ({ done: !done }));
+  };
+
+  onToggleImportant = id => {
+    console.log("important", id);
+    // this.setState(({ important }) => ({ important: !important }));
   };
 
   render() {
@@ -56,7 +65,12 @@ export default class App extends Component {
         <AppHeader />
         <ItemStatusFilter />
         <SearchPanel />
-        <TodoList todos={this.state.todos} onDeleteClick={this.onDeleteClick} />
+        <TodoList
+          todos={this.state.todos}
+          onToggleDone={this.onToggleDone}
+          onDeleteClick={this.onDeleteClick}
+          onToggleImportant={this.onToggleImportant}
+        />
         <AddTodo onAddTodoClick={this.onAddTodoClick} />
       </>
     );

@@ -1,22 +1,15 @@
 import { Component } from "react";
 
 export default class TodoListItem extends Component {
-  state = {
-    done: this.props.done,
-    important: this.props.important,
-  };
-
-  onLabelClick = () => {
-    this.setState(({ done }) => ({ done: !done }));
-  };
-
-  onImportantClick = () => {
-    this.setState(({ important }) => ({ important: !important }));
-  };
-
   render() {
-    const { done, important } = this.state;
-    const { label, onDeleteClick } = this.props;
+    const {
+      label,
+      done,
+      important,
+      onDeleteClick,
+      onToggleImportant,
+      onToggleDone,
+    } = this.props;
 
     let classNames = "todo-list-item";
     if (done) classNames += " text-decoration-line-through";
@@ -24,13 +17,13 @@ export default class TodoListItem extends Component {
 
     return (
       <>
-        <span className={classNames} onClick={this.onLabelClick}>
+        <span className={classNames} onClick={onToggleDone}>
           {label}
         </span>
         <button
           type="button"
           className="btn btn-sm btn-outline-success"
-          onClick={this.onImportantClick}
+          onClick={onToggleImportant}
         >
           important
         </button>
