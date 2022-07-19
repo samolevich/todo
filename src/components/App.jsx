@@ -8,9 +8,12 @@ import AddTodo from "./AddTodo";
 export default class App extends Component {
   state = {
     todos: [
-      { label: "learn", important: false, id: 1, done: false },
-      { label: "build", important: true, id: 2, done: false },
-      { label: "enjoy", important: false, id: 3, done: true },
+      { label: "learn", done: false, important: false, id: 1 },
+      { label: "build", done: false, important: false, id: 2 },
+      { label: "enjoy", done: false, important: false, id: 3 },
+      //   this.createTodo("learn"),
+      //   this.createTodo("build"),
+      //   this.createTodo("enjoy"),
     ],
   };
 
@@ -22,17 +25,18 @@ export default class App extends Component {
   inc = this.counter();
 
   generateUniqueId = () => {
-    return new Date().getTime() + this.inc();
+    return new Date().getTime() * 1000 + this.inc();
   };
 
-  onAddTodoClick = () => {
-    const newTodo = {
-      label: `todo - ${this.inc()}`,
-      important: false,
-      done: false,
-      id: this.generateUniqueId(),
-    };
+  createTodo = label => ({
+    label,
+    important: false,
+    done: false,
+    id: this.generateUniqueId(),
+  });
 
+  onAddTodoClick = (label = "new") => {
+    const newTodo = this.createTodo("label");
     this.setState(({ todos }) => ({
       todos: [...todos, newTodo],
     }));
@@ -45,13 +49,29 @@ export default class App extends Component {
   };
 
   onToggleDone = id => {
-    console.log("done", id);
-    // this.setState(({ todos }) => ({ done: !done }));
+    this.setState(({ todos }) => {
+      return {
+        todos: todos.reduce((acc, cur) => {
+          if (cur.id === id) {
+            cur = { ...cur, done: !cur.done };
+          }
+          return [...acc, cur];
+        }, []),
+      };
+    });
   };
 
   onToggleImportant = id => {
-    console.log("important", id);
-    // this.setState(({ important }) => ({ important: !important }));
+    this.setState(({ todos }) => {
+      return {
+        todos: todos.reduce((acc, cur) => {
+          if (cur.id === id) {
+            cur = { ...cur, important: !cur.important };
+          }
+          return [...acc, cur];
+        }, []),
+      };
+    });
   };
 
   render() {
