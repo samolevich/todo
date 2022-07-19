@@ -1,6 +1,6 @@
 import { Component } from "react";
 
-export default class TodoListItem extends Component {
+class TodoListItem extends Component {
   render() {
     const {
       label,
@@ -38,3 +38,5 @@ export default class TodoListItem extends Component {
     );
   }
 }
+
+export default TodoListItem;
