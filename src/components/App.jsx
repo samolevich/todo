@@ -81,10 +81,9 @@ class App extends Component {
       (acc, cur) => {
         acc.done += +cur.done;
         acc.important += +cur.important;
-        acc.len += 1;
         return acc;
       },
-      { done: 0, important: 0, len: 0 },
+      { done: 0, important: 0, len: this.state.todos.length },
     );
 
     return (
