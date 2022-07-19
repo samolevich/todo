@@ -79,21 +79,18 @@ class App extends Component {
     const welcomeBox = <span>Welcome Back</span>;
     const stats = this.state.todos.reduce(
       (acc, cur) => {
-        if (cur.done) acc.done += 1;
-        if (cur.important) acc.important += 1;
+        acc.done += +cur.done;
+        acc.important += +cur.important;
         acc.len += 1;
         return acc;
       },
-      {
-        len: 0,
-        done: 0,
-        important: 0,
-      },
+      { done: 0, important: 0, len: 0 },
     );
+
     return (
       <>
         {isLoggedIn ? welcomeBox : loginBox}
-        <AppHeader stats={stats} />
+        <AppHeader {...stats} />
         <ItemStatusFilter />
         <SearchPanel />
         <TodoList
