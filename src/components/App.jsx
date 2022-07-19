@@ -5,17 +5,17 @@ import SearchPanel from "./SearchPanel";
 import TodoList from "./TodoList";
 import AddTodo from "./AddTodo";
 
-export default class App extends Component {
-  state = {
-    todos: [
-      { label: "learn", done: false, important: false, id: 1 },
-      { label: "build", done: false, important: false, id: 2 },
-      { label: "enjoy", done: false, important: false, id: 3 },
-      //   this.createTodo("learn"),
-      //   this.createTodo("build"),
-      //   this.createTodo("enjoy"),
-    ],
-  };
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      todos: [
+        this.createTodo("learn"),
+        this.createTodo("build"),
+        this.createTodo("enjoy"),
+      ],
+    };
+  }
 
   counter = (step = 1) => {
     let start = 0;
@@ -35,10 +35,9 @@ export default class App extends Component {
     id: this.generateUniqueId(),
   });
 
-  onAddTodoClick = (label = "new") => {
-    const newTodo = this.createTodo("label");
+  onAddTodoClick = () => {
     this.setState(({ todos }) => ({
-      todos: [...todos, newTodo],
+      todos: [...todos, this.createTodo("new todo")],
     }));
   };
 
@@ -96,3 +95,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default App;
