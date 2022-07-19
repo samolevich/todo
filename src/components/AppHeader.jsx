@@ -1,8 +1,8 @@
-const AppHeader = () => {
+const AppHeader = ({ stats: { done, important, len } }) => {
   return (
     <>
       <h1>Todo List</h1>
-      <p>monitor</p>
+      <p>{`Important: ${important} Done: ${done} Total: ${len}`}</p>
     </>
   );
 };
