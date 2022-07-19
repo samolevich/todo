@@ -47,43 +47,39 @@ class App extends Component {
     }));
   };
 
+  toggleProperty = (arr, id, propName) => {
+    return arr.reduce((acc, cur) => {
+      if (cur.id === id) {
+        cur = { ...cur, [propName]: !cur[propName] };
+      }
+      return [...acc, cur];
+    }, []);
+  };
+
   onToggleDone = id => {
-    this.setState(({ todos }) => {
-      return {
-        todos: todos.reduce((acc, cur) => {
-          if (cur.id === id) {
-            cur = { ...cur, done: !cur.done };
-          }
-          return [...acc, cur];
-        }, []),
-      };
-    });
+    this.setState(({ todos }) => ({
+      todos: this.toggleProperty(todos, id, "done"),
+    }));
   };
 
   onToggleImportant = id => {
-    this.setState(({ todos }) => {
-      return {
-        todos: todos.reduce((acc, cur) => {
-          if (cur.id === id) {
-            cur = { ...cur, important: !cur.important };
-          }
-          return [...acc, cur];
-        }, []),
-      };
-    });
+    this.setState(({ todos }) => ({
+      todos: this.toggleProperty(todos, id, "important"),
+    }));
   };
 
   render() {
     const isLoggedIn = true;
     const loginBox = <span>Log in, please</span>;
     const welcomeBox = <span>Welcome Back</span>;
-    const stats = this.state.todos.reduce(
+    const { todos } = this.state;
+    const stats = todos.reduce(
       (acc, cur) => {
         acc.done += +cur.done;
         acc.important += +cur.important;
         return acc;
       },
-      { done: 0, important: 0, len: this.state.todos.length },
+      { done: 0, important: 0, len: todos.length },
     );
 
     return (
@@ -93,7 +89,7 @@ class App extends Component {
         <ItemStatusFilter />
         <SearchPanel />
         <TodoList
-          todos={this.state.todos}
+          todos={todos}
           onToggleDone={this.onToggleDone}
           onDeleteClick={this.onDeleteClick}
           onToggleImportant={this.onToggleImportant}
