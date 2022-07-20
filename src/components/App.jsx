@@ -35,9 +35,9 @@ class App extends Component {
     id: this.generateUniqueId(),
   });
 
-  onAddTodoClick = () => {
+  onAddTodoClick = label => {
     this.setState(({ todos }) => ({
-      todos: [...todos, this.createTodo("new todo")],
+      todos: [...todos, this.createTodo(label)],
     }));
   };
 
