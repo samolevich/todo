@@ -2,19 +2,21 @@ import { Component } from "react";
 
 class ItemStatusFilter extends Component {
   render() {
-    return (
-      <>
-        <button type="button" className="btn btn-outline-secondary">
-          All
-        </button>
-        <button type="button" className="btn btn-primary">
-          Active
-        </button>
-        <button type="button" className="btn btn-outline-secondary">
-          Done
-        </button>
-      </>
-    );
+    const { whatToShow, onFilterChange } = this.props;
+
+    const buttons = ["all", "done", "active", "important"].map(btn => (
+      <button
+        className={
+          btn === whatToShow ? "btn btn-primary" : "btn btn-outline-secondary"
+        }
+        type="button"
+        key={btn}
+        onClick={() => onFilterChange(btn)}
+      >
+        {btn.replace(/^\w/, c => c.toUpperCase())}
+      </button>
+    ));
+    return <>{buttons}</>;
   }
 }
 

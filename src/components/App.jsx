@@ -14,6 +14,7 @@ class App extends Component {
         this.createTodo("build"),
         this.createTodo("enjoy"),
       ],
+      whatToShow: "all",
     };
   }
 
@@ -67,11 +68,13 @@ class App extends Component {
     }));
   };
 
+  onFilterChange = filter => {
+    this.setState(() => ({ whatToShow: filter }));
+  };
+
   render() {
-    const isLoggedIn = true;
-    const loginBox = <span>Log in, please</span>;
-    const welcomeBox = <span>Welcome Back</span>;
-    const { todos } = this.state;
+    const { todos, whatToShow } = this.state;
+
     const stats = todos.reduce(
       (acc, cur) => {
         acc.done += +cur.done;
@@ -81,19 +84,40 @@ class App extends Component {
       { done: 0, important: 0, len: todos.length },
     );
 
+    let shownTodos = [];
+    switch (whatToShow) {
+      case "all":
+        shownTodos = [...todos];
+        break;
+      case "important":
+        shownTodos = todos.filter(({ important }) => important);
+        break;
+      case "done":
+        shownTodos = todos.filter(({ done }) => done);
+        break;
+      case "active":
+        shownTodos = todos.filter(({ done }) => !done);
+        break;
+      default:
+        shownTodos = [...todos];
+        break;
+    }
+
     return (
       <>
-        {isLoggedIn ? welcomeBox : loginBox}
         <AppHeader {...stats} />
-        <ItemStatusFilter />
+        <ItemStatusFilter
+          whatToShow={whatToShow}
+          onFilterChange={this.onFilterChange}
+        />
         <SearchPanel />
+        <AddTodo onAddTodoClick={this.onAddTodoClick} />
         <TodoList
-          todos={todos}
+          todos={shownTodos}
           onToggleDone={this.onToggleDone}
           onDeleteClick={this.onDeleteClick}
           onToggleImportant={this.onToggleImportant}
         />
-        <AddTodo onAddTodoClick={this.onAddTodoClick} />
       </>
     );
   }
