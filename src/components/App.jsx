@@ -24,9 +24,7 @@ class App extends Component {
 
   inc = this.counter();
 
-  generateUniqueId = () => {
-    return new Date().getTime() * 1000 + this.inc();
-  };
+  generateUniqueId = () => new Date().getTime() * 1000 + this.inc();
 
   createTodo = label => ({
     label,
