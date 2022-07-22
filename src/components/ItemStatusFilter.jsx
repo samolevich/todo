@@ -4,18 +4,23 @@ class ItemStatusFilter extends Component {
   render() {
     const { whatToShow, onFilterChange } = this.props;
 
-    const buttons = ["all", "done", "active", "important"].map(btn => (
-      <button
-        className={
-          btn === whatToShow ? "btn btn-primary" : "btn btn-outline-secondary"
-        }
-        type="button"
-        key={btn}
-        onClick={() => onFilterChange(btn)}
-      >
-        {btn.replace(/^\w/, c => c.toUpperCase())}
-      </button>
-    ));
+    const buttons = ["all", "done", "active", "important"].map(btn => {
+      const classNames =
+        btn === whatToShow ? "btn btn-primary" : "btn btn-outline-secondary";
+      const capitalizeBtn = btn.replace(/^\w/, c => c.toUpperCase());
+
+      return (
+        <button
+          className={classNames}
+          type="button"
+          key={btn}
+          onClick={() => onFilterChange(btn)}
+        >
+          {capitalizeBtn}
+        </button>
+      );
+    });
+
     return <>{buttons}</>;
   }
 }
