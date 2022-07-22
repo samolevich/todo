@@ -15,6 +15,7 @@ class App extends Component {
         this.createTodo("enjoy"),
       ],
       whatToShow: "all",
+      searchQuery: "",
     };
   }
 
@@ -72,8 +73,14 @@ class App extends Component {
     this.setState(() => ({ whatToShow: filter }));
   };
 
+  onChangeSearch = event => {
+    this.setState(() => ({
+      searchQuery: event.target.value,
+    }));
+  };
+
   render() {
-    const { todos, whatToShow } = this.state;
+    const { todos, whatToShow, searchQuery } = this.state;
 
     const stats = todos.reduce(
       (acc, cur) => {
@@ -102,6 +109,7 @@ class App extends Component {
         shownTodos = [...todos];
         break;
     }
+    shownTodos = shownTodos.filter(({ label }) => label.includes(searchQuery));
 
     return (
       <>
@@ -110,7 +118,10 @@ class App extends Component {
           whatToShow={whatToShow}
           onFilterChange={this.onFilterChange}
         />
-        <SearchPanel />
+        <SearchPanel
+          searchQuery={searchQuery}
+          onChangeSearch={this.onChangeSearch}
+        />
         <AddTodo onAddTodoClick={this.onAddTodoClick} />
         <TodoList
           todos={shownTodos}
