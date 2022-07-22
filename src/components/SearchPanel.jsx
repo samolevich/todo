@@ -1,11 +1,9 @@
 const SearchPanel = ({ searchQuery, onChangeSearch }) => {
-  const searchText = "Type here to search...";
-  const searchStyle = {
-    fontSize: "20px",
-  };
+  const searchText = "Type here to search todo...";
+
   return (
     <input
-      style={searchStyle}
+      className="search"
       placeholder={searchText}
       value={searchQuery}
       onChange={onChangeSearch}

@@ -8,7 +8,7 @@ const TodoList = ({
 }) => {
   const todoList = todos.map(({ id, ...todoItem }) => {
     return (
-      <li key={id} className="list-group-item">
+      <li key={id} className="todo-list__item">
         <TodoListItem
           {...todoItem}
           onToggleDone={() => onToggleDone(id)}
@@ -19,7 +19,7 @@ const TodoList = ({
     );
   });
 
-  return <ul className="list-group todo-list">{todoList}</ul>;
+  return <ul className="todo-list">{todoList}</ul>;
 };
 
 export default TodoList;

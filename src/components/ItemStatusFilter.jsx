@@ -6,7 +6,9 @@ class ItemStatusFilter extends Component {
 
     const buttons = ["all", "done", "active", "important"].map(btn => {
       const classNames =
-        btn === whatToShow ? "btn btn-primary" : "btn btn-outline-secondary";
+        btn === whatToShow
+          ? "filter-buttons__btn filter-buttons__btn_primary"
+          : "filter-buttons__btn filter-buttons__btn_secondary";
       const capitalizeBtn = btn.replace(/^\w/, c => c.toUpperCase());
 
       return (
@@ -21,7 +23,7 @@ class ItemStatusFilter extends Component {
       );
     });
 
-    return <>{buttons}</>;
+    return <div className="filter-buttons">{buttons}</div>;
   }
 }
 

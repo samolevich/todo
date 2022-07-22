@@ -20,14 +20,15 @@ class AddTodo extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onButtonSubmit}>
+      <form onSubmit={this.onButtonSubmit} className="add-todo-form">
         <input
           type="text"
           placeholder="add new todo"
           value={this.state.label}
           onChange={this.onValueChange}
+          className="add-todo-form__input"
         />
-        <button className="btn btn-outline-secondary">Add Todo</button>
+        <button className="add-todo-form__button">Add Todo</button>
       </form>
     );
   }

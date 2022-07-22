@@ -38,7 +38,7 @@ class App extends Component {
   onAddTodoClick = label => {
     if (!label.trim()) return;
     this.setState(({ todos }) => ({
-      todos: [...todos, this.createTodo(label)],
+      todos: [this.createTodo(label), ...todos],
     }));
   };
 
@@ -122,13 +122,13 @@ class App extends Component {
           searchQuery={searchQuery}
           onChangeSearch={this.onChangeSearch}
         />
-        <AddTodo onAddTodoClick={this.onAddTodoClick} />
         <TodoList
           todos={shownTodos}
           onToggleDone={this.onToggleDone}
           onDeleteClick={this.onDeleteClick}
           onToggleImportant={this.onToggleImportant}
         />
+        <AddTodo onAddTodoClick={this.onAddTodoClick} />
       </>
     );
   }

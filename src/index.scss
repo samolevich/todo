@@ -1,0 +1,100 @@
+@import url("./normalize.css");
+$height-input: 31px;
+$height-button: 35px;
+$color-0: rgb(109, 133, 179);
+$color-1: rgb(236, 74, 62);
+$color-2: #ffffff;
+$color-3: #ff9e0c;
+
+%tmplInput {
+  height: $height-input;
+  max-width: 300px;
+  margin: 0 auto;
+  border: 1px solid $color-0;
+  border-radius: 5px;
+}
+
+%tmplButton {
+  margin: 0 2px;
+  height: $height-button;
+  border: 1px solid $color-0;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 0 15px;
+}
+
+%tmpButtonHover {
+  background-color: $color-1;
+  color: $color-2;
+  box-shadow: 0 0 10px $color-3;
+  transition: 0.3s;
+}
+
+* {
+  color: rgb(109, 133, 179);
+  font-family: sans-serif;
+}
+
+#root {
+  margin: 0 auto;
+  display: grid;
+  gap: 5px;
+  min-width: 300px;
+  max-width: 800px;
+  > * {
+    background-color: rgb(221, 224, 233);
+  }
+}
+
+.title,
+.statistics,
+.add-todo-form {
+  text-align: center;
+}
+
+.search {
+  @extend %tmplInput;
+}
+
+.filter-buttons {
+  margin: 5px auto;
+  padding: 5px 0;
+  box-sizing: border-box;
+}
+
+.filter-buttons__btn {
+  margin: 0 2px;
+}
+
+.filter-buttons__btn_primary {
+  @extend %tmplButton;
+  background-color: $color-1;
+  color: $color-2;
+  box-shadow: 0 0 10px $color-1;
+}
+
+.filter-buttons__btn_secondary {
+  @extend %tmplButton;
+  &:hover {
+    @extend %tmpButtonHover;
+  }
+}
+
+.add-todo-form__input {
+  @extend %tmplInput;
+}
+
+.add-todo-form__button {
+  @extend %tmplButton;
+  &:hover {
+    @extend %tmpButtonHover;
+  }
+}
+
+.todo-list__item-label_done {
+  text-decoration: line-through;
+}
+
+.todo-list__item-label_important {
+  font-weight: bold;
+}
