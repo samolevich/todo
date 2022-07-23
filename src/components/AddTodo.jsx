@@ -1,37 +1,30 @@
-import { Component } from "react";
+import { useState } from "react";
 
-class AddTodo extends Component {
-  constructor() {
-    super();
-    this.state = {
-      label: "",
-    };
-  }
+const AddTodo = ({ onAddTodoClick }) => {
+  const [label, setLabel] = useState("");
 
-  onValueChange = event => {
-    this.setState(() => ({ label: event.target.value }));
+  const onValueChange = event => {
+    setLabel(event.target.value);
   };
 
-  onButtonSubmit = event => {
+  const onButtonSubmit = event => {
     event.preventDefault();
-    this.props.onAddTodoClick(this.state.label);
-    this.setState(() => ({ label: "" }));
+    onAddTodoClick(label);
+    setLabel("");
   };
 
-  render() {
-    return (
-      <form onSubmit={this.onButtonSubmit} className="add-todo-form">
-        <input
-          type="text"
-          placeholder="Type to create new activity..."
-          value={this.state.label}
-          onChange={this.onValueChange}
-          className="add-todo-form__input"
-        />
-        <button className="add-todo-form__button">Add</button>
-      </form>
-    );
-  }
-}
+  return (
+    <form onSubmit={onButtonSubmit} className="add-todo-form">
+      <input
+        type="text"
+        placeholder="Type to create new activity..."
+        value={label}
+        onChange={onValueChange}
+        className="add-todo-form__input"
+      />
+      <button className="add-todo-form__button">Add</button>
+    </form>
+  );
+};
 
 export default AddTodo;

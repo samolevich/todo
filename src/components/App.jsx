@@ -1,139 +1,109 @@
-import { Component } from "react";
+import { useState } from "react";
 import AppHeader from "./AppHeader";
 import ItemStatusFilter from "./ItemStatusFilter";
 import SearchPanel from "./SearchPanel";
 import TodoList from "./TodoList";
 import AddTodo from "./AddTodo";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      todos: [
-        this.createTodo("Learn HTML"),
-        this.createTodo("Learn CSS"),
-        this.createTodo("Learn JavaScript"),
-        this.createTodo("Learn React JS"),
-        this.createTodo("Learn Node JS"),
-      ],
-      whatToShow: "all",
-      searchQuery: "",
-    };
-  }
+const counter = (step = 1) => {
+  let start = 0;
+  return () => (start += step);
+};
 
-  counter = (step = 1) => {
-    let start = 0;
-    return () => (start += step);
-  };
+const inc = counter();
 
-  inc = this.counter();
+const generateUniqueId = () => new Date().getTime() * 1000 + inc();
 
-  generateUniqueId = () => new Date().getTime() * 1000 + this.inc();
+const createTodo = label => ({
+  label,
+  important: false,
+  done: false,
+  id: generateUniqueId(),
+});
 
-  createTodo = label => ({
-    label,
-    important: false,
-    done: false,
-    id: this.generateUniqueId(),
-  });
+const App = () => {
+  const [todos, setTodos] = useState([
+    createTodo("Learn HTML"),
+    createTodo("Learn CSS"),
+    createTodo("Learn JavaScript"),
+    createTodo("Learn React JS"),
+    createTodo("Learn Node JS"),
+  ]);
+  const [whatToShow, setWhatToShow] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  onAddTodoClick = label => {
+  const onAddTodoClick = label => {
     if (!label.trim()) return;
-    this.setState(({ todos }) => ({
-      todos: [...todos, this.createTodo(label)],
-    }));
+    return setTodos([...todos, createTodo(label)]);
   };
 
-  onDeleteClick = id => {
-    this.setState(({ todos }) => ({
-      todos: todos.filter(todo => todo.id !== id),
-    }));
-  };
+  const onDeleteClick = id => setTodos(todos.filter(todo => todo.id !== id));
 
-  toggleProperty = (arr, id, propName) => {
-    return arr.reduce((acc, cur) => {
+  const toggleProperty = (arr, id, propName) =>
+    arr.reduce((acc, cur) => {
       if (cur.id === id) {
         cur = { ...cur, [propName]: !cur[propName] };
       }
       return [...acc, cur];
     }, []);
-  };
 
-  onToggleDone = id => {
-    this.setState(({ todos }) => ({
-      todos: this.toggleProperty(todos, id, "done"),
-    }));
-  };
+  const onToggleDone = id => setTodos(toggleProperty(todos, id, "done"));
 
-  onToggleImportant = id => {
-    this.setState(({ todos }) => ({
-      todos: this.toggleProperty(todos, id, "important"),
-    }));
-  };
+  const onToggleImportant = id =>
+    setTodos(toggleProperty(todos, id, "important"));
 
-  onFilterChange = filter => {
-    this.setState(() => ({ whatToShow: filter }));
-  };
+  const onFilterChange = filter => setWhatToShow(filter);
 
-  onChangeSearch = event => {
-    this.setState(() => ({
-      searchQuery: event.target.value,
-    }));
-  };
+  const onChangeSearch = event => setSearchQuery(event.target.value);
 
-  render() {
-    const { todos, whatToShow, searchQuery } = this.state;
+  const stats = todos.reduce(
+    (acc, cur) => {
+      acc.done += +cur.done;
+      acc.important += +cur.important;
+      return acc;
+    },
+    { done: 0, important: 0, len: todos.length },
+  );
 
-    const stats = todos.reduce(
-      (acc, cur) => {
-        acc.done += +cur.done;
-        acc.important += +cur.important;
-        return acc;
-      },
-      { done: 0, important: 0, len: todos.length },
-    );
-
-    let shownTodos = [];
-    switch (whatToShow) {
-      case "all":
-        shownTodos = [...todos];
-        break;
-      case "important":
-        shownTodos = todos.filter(({ important }) => important);
-        break;
-      case "done":
-        shownTodos = todos.filter(({ done }) => done);
-        break;
-      case "active":
-        shownTodos = todos.filter(({ done }) => !done);
-        break;
-      default:
-        shownTodos = [...todos];
-        break;
-    }
-    shownTodos = shownTodos.filter(({ label }) => label.includes(searchQuery));
-
-    return (
-      <>
-        <AppHeader {...stats} />
-        <ItemStatusFilter
-          whatToShow={whatToShow}
-          onFilterChange={this.onFilterChange}
-        />
-        <SearchPanel
-          searchQuery={searchQuery}
-          onChangeSearch={this.onChangeSearch}
-        />
-        <TodoList
-          todos={shownTodos}
-          onToggleDone={this.onToggleDone}
-          onDeleteClick={this.onDeleteClick}
-          onToggleImportant={this.onToggleImportant}
-        />
-        <AddTodo onAddTodoClick={this.onAddTodoClick} />
-      </>
-    );
+  let shownTodos = [];
+  switch (whatToShow) {
+    case "all":
+      shownTodos = [...todos];
+      break;
+    case "important":
+      shownTodos = todos.filter(({ important }) => important);
+      break;
+    case "done":
+      shownTodos = todos.filter(({ done }) => done);
+      break;
+    case "active":
+      shownTodos = todos.filter(({ done }) => !done);
+      break;
+    default:
+      shownTodos = [...todos];
+      break;
   }
-}
+  shownTodos = shownTodos.filter(({ label }) =>
+    label.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  return (
+    <>
+      <AppHeader {...stats} />
+      <ItemStatusFilter
+        whatToShow={whatToShow}
+        onFilterChange={onFilterChange}
+      />
+      <SearchPanel searchQuery={searchQuery} onChangeSearch={onChangeSearch} />
+      <TodoList
+        todos={shownTodos}
+        onToggleDone={onToggleDone}
+        onDeleteClick={onDeleteClick}
+        onToggleImportant={onToggleImportant}
+      />
+      <AddTodo onAddTodoClick={onAddTodoClick} />
+    </>
+  );
+};
 
 export default App;
