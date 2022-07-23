@@ -11,29 +11,29 @@ class TodoListItem extends Component {
       onToggleDone,
     } = this.props;
 
-    let classNames = "todo-list__item-label";
-    if (done) classNames = "todo-list__item-label_done";
-    if (important) classNames = "todo-list__item-label_important";
+    let classNames = "todo-list__item__label";
+    if (done) classNames += " todo-list__item__label_done";
+    if (important) classNames += " todo-list__item__label_important";
 
     return (
       <>
         <span className={classNames} onClick={onToggleDone}>
           {label}
         </span>
-        <span>
+        <span className="todo-list__item__buttons">
           <button
             type="button"
-            className="btn btn-sm btn-outline-success"
+            className="todo-list__item__button_important"
             onClick={onToggleImportant}
           >
-            important
+            <img src="./img/exclamation-square.svg" alt="important icon" />
           </button>
           <button
             type="button"
-            className="btn btn-sm btn-outline-danger"
+            className="todo-list__item__button_delete"
             onClick={onDeleteClick}
           >
-            delete
+            <img src="./img/trash.svg" alt="delete icon" />
           </button>
         </span>
       </>

@@ -23,12 +23,12 @@ class AddTodo extends Component {
       <form onSubmit={this.onButtonSubmit} className="add-todo-form">
         <input
           type="text"
-          placeholder="add new todo"
+          placeholder="Type to create new activity..."
           value={this.state.label}
           onChange={this.onValueChange}
           className="add-todo-form__input"
         />
-        <button className="add-todo-form__button">Add Todo</button>
+        <button className="add-todo-form__button">Add</button>
       </form>
     );
   }

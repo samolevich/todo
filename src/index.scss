@@ -1,25 +1,26 @@
 @import url("./normalize.css");
-$height-input: 31px;
+$height-input: 35px;
 $height-button: 35px;
+$border-radius: 5px;
 $color-0: rgb(109, 133, 179);
-$color-1: rgb(236, 74, 62);
+$color-1: rgb(236, 88, 62);
 $color-2: #ffffff;
 $color-3: #ff9e0c;
 
 %tmplInput {
   height: $height-input;
-  max-width: 300px;
-  margin: 0 auto;
   border: 1px solid $color-0;
-  border-radius: 5px;
+  border-radius: $border-radius;
+  padding: 0;
+  box-sizing: border-box;
+  padding-left: 5px;
 }
 
 %tmplButton {
-  margin: 0 2px;
   height: $height-button;
   border: 1px solid $color-0;
-  border-radius: 5px;
-  background-color: #fff;
+  border-radius: $border-radius;
+  background-color: $color-2;
   padding: 0 15px;
 }
 
@@ -31,18 +32,17 @@ $color-3: #ff9e0c;
 }
 
 * {
-  color: rgb(109, 133, 179);
+  color: $color-0;
   font-family: sans-serif;
 }
 
 #root {
   margin: 0 auto;
   display: grid;
-  gap: 5px;
-  min-width: 300px;
-  max-width: 800px;
-  > * {
-    background-color: rgb(221, 224, 233);
+  gap: 15px;
+  & > * {
+    width: 315px;
+    margin: 0 auto;
   }
 }
 
@@ -57,13 +57,16 @@ $color-3: #ff9e0c;
 }
 
 .filter-buttons {
-  margin: 5px auto;
-  padding: 5px 0;
+  padding: 0;
   box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: stretch;
+  grid-gap: 3px;
 }
 
 .filter-buttons__btn {
-  margin: 0 2px;
+  align-self: start;
 }
 
 .filter-buttons__btn_primary {
@@ -80,6 +83,12 @@ $color-3: #ff9e0c;
   }
 }
 
+.add-todo-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 3px;
+}
+
 .add-todo-form__input {
   @extend %tmplInput;
 }
@@ -91,10 +100,46 @@ $color-3: #ff9e0c;
   }
 }
 
-.todo-list__item-label_done {
+.todo-list {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  grid-gap: 15px;
+}
+
+.todo-list__item {
+  display: grid;
+  grid-template-columns: 1fr 110px;
+  align-items: center;
+  justify-items: center;
+}
+
+.todo-list__item__label {
+  justify-self: left;
+  word-break: break-all;
+  padding-left: 5px;
+}
+
+.todo-list__item__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 3px;
+  justify-self: right;
+
+  > * {
+    display: grid;
+    align-items: center;
+    @extend %tmplButton;
+    &:hover {
+      @extend %tmpButtonHover;
+    }
+  }
+}
+
+.todo-list__item__label_done {
   text-decoration: line-through;
 }
 
-.todo-list__item-label_important {
+.todo-list__item__label_important {
   font-weight: bold;
 }

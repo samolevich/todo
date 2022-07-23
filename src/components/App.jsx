@@ -38,7 +38,7 @@ class App extends Component {
   onAddTodoClick = label => {
     if (!label.trim()) return;
     this.setState(({ todos }) => ({
-      todos: [this.createTodo(label), ...todos],
+      todos: [...todos, this.createTodo(label)],
     }));
   };
 
