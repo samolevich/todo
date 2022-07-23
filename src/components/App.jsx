@@ -10,9 +10,11 @@ class App extends Component {
     super();
     this.state = {
       todos: [
-        this.createTodo("learn"),
-        this.createTodo("build"),
-        this.createTodo("enjoy"),
+        this.createTodo("Learn HTML"),
+        this.createTodo("Learn CSS"),
+        this.createTodo("Learn JavaScript"),
+        this.createTodo("Learn React JS"),
+        this.createTodo("Learn Node JS"),
       ],
       whatToShow: "all",
       searchQuery: "",
