@@ -1,36 +1,42 @@
-import { useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import AppHeader from "./AppHeader";
 import ItemStatusFilter from "./ItemStatusFilter";
 import SearchPanel from "./SearchPanel";
 import TodoList from "./TodoList";
 import AddTodo from "./AddTodo";
 
-const counter = (step = 1) => {
-  let start = 0;
-  return () => (start += step);
-};
-
-const inc = counter();
-
-const generateUniqueId = () => new Date().getTime() * 1000 + inc();
-
-const createTodo = label => ({
-  label,
-  important: false,
-  done: false,
-  id: generateUniqueId(),
-});
-
 const App = () => {
-  const [todos, setTodos] = useState([
-    createTodo("Learn HTML"),
-    createTodo("Learn CSS"),
-    createTodo("Learn JavaScript"),
-    createTodo("Learn React JS"),
-    createTodo("Learn Node JS"),
-  ]);
+  const [todos, setTodos] = useState([]);
   const [whatToShow, setWhatToShow] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const defferedSearchQuery = useDeferredValue(searchQuery);
+
+  const counter = (step = 1) => {
+    let start = 0;
+    return () => (start += step);
+  };
+
+  const inc = counter();
+
+  const generateUniqueId = () => new Date().getTime() * 1000 + inc();
+
+  const createTodo = (label, important = false, done = false) => ({
+    label,
+    important,
+    done,
+    id: generateUniqueId(),
+  });
+
+  useEffect(() => {
+    setTodos([
+      createTodo("Learn HTML"),
+      createTodo("Learn CSS"),
+      createTodo("Learn JavaScript", true, true),
+      createTodo("Learn React JS", true, false),
+      createTodo("Learn Node JS", false, true),
+    ]);
+    // eslint-disable-next-line
+  }, []);
 
   const onAddTodoClick = label => {
     if (!label.trim()) return;
@@ -84,7 +90,7 @@ const App = () => {
       break;
   }
   shownTodos = shownTodos.filter(({ label }) =>
-    label.toLowerCase().includes(searchQuery.toLowerCase()),
+    label.toLowerCase().includes(defferedSearchQuery.toLowerCase()),
   );
 
   return (
